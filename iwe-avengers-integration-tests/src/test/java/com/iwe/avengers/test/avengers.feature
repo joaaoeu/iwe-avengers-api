@@ -27,3 +27,17 @@ And request {name: 'Spider Man', secretIdentity: 'Peter Parker'}
 When method put
 Then status 200
 And match response == {id: '#string', name: 'Spider Man', secretIdentity: 'Peter Parker'}
+
+Scenario: Registry a new Avenger with invalid Payload
+Given path 'avengers'
+And request {secretIdentity: 'Steve Rogers'}
+When method post
+Then status 400
+And match response == {message: 'Invalid request body'}
+
+Scenario: Update Avenger by Id with invalid Payload
+Given path 'avengers', 'sdsa-sasa-asas-sasa'
+And request {secretIdentity: 'Peter Parker'}
+When method put
+Then status 400
+And match response == {message: 'Invalid request body'}
