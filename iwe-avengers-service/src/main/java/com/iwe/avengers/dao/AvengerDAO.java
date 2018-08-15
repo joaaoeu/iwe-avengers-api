@@ -25,4 +25,15 @@ public class AvengerDAO {
 		return mapper.get(id);
 	}
 
+	public Avenger create(Avenger newAvenger) {
+		
+		String id = mapper.size() + "";
+		
+		newAvenger.setId(id);
+		
+		mapper.put(id, newAvenger);
+		
+		return newAvenger;
+	}
+
 }
