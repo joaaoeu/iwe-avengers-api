@@ -36,4 +36,16 @@ public class AvengerDAO {
 		return newAvenger;
 	}
 
+	public void remove(String id) {
+		
+		mapper.remove(id);
+	}
+
+	public Avenger update(Avenger avenger) {
+		
+		mapper.put(avenger.getId(), avenger);
+		
+		return avenger;
+	}
+
 }
