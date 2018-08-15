@@ -9,6 +9,11 @@ When method get
 Then status 200
 And match response == {id: '#string', name: 'Iron Man', secretIdentity: 'Tony Stark'}
 
+Scenario: Avenger Not Found
+Given path 'avengers', 'invalid'
+When method get
+Then status 404
+
 Scenario: Registry a new Avenger
 Given path 'avengers'
 And request {name: 'Captain America', secretIdentity: 'Steve Rogers'}
