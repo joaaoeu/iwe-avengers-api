@@ -1,5 +1,7 @@
 package com.iwe.avengers;
 
+import java.util.NoSuchElementException;
+
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.iwe.avenger.dynamodb.entity.Avenger;
@@ -16,23 +18,23 @@ public class RemoveAvengerHandler implements RequestHandler<Avenger, HandlerResp
 		
 		final String id = avenger.getId();
 				
-		context.getLogger().log("[#] - Deleting Avenger with id: " + id);
+		context.getLogger().log("[#] - Searching Avenger with id: " + id);
 		
-		final Avenger retrivedAvenger = dao.find(id);
-		
-		if (retrivedAvenger == null) {
+		try {
+			
+			final Avenger avengerToRemove = dao.find(avenger.getId());
+			context.getLogger().log("[#] - Avenger found! Removing... =)");
+			
+			dao.remove(avengerToRemove);
+			context.getLogger().log("[#] - Successfully removed Avenger! =)");
+			
+		} catch(NoSuchElementException e) {
 			throw new AvengerNotFoundException("[NotFound] - Avenger id: "
-											+ id + " not found");
+										+ id + " not found");
 		}
-
-		dao.remove(id);
 		
-		final HandlerResponse response = HandlerResponse.builder()
-										 .setStatusCode(204)
-										 .build();
-
-		context.getLogger().log("[#] - Avenger deleted! =)");
-
+		final HandlerResponse response = HandlerResponse.builder().build();
+		
 		return response;
 	}
 }

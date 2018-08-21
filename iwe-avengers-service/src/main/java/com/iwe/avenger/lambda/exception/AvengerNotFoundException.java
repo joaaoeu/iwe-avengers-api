@@ -22,5 +22,5 @@ public class AvengerNotFoundException extends RuntimeException {
 	public AvengerNotFoundException(Throwable cause) {
 		super(cause);
 	}
-	
+
 }
